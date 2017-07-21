@@ -18,8 +18,18 @@ RUN set -ex; \
       --enable-ipv6 \
       --enable-unix-sockets \
       --without-libidn \
+      --without-libidn2 \
       --disable-static \
       --disable-ldap \
+      --disable-ftp \
+      --disable-rtsp \
+      --disable-dict \
+      --disable-tftp \
+      --disable-pop3 \
+      --disable-smb \
+      --disable-gopher \
+      --disable-manual \
+      --disable-ntlm-wb \
       --with-pic; \
   make; \
   make install; \
