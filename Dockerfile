@@ -12,6 +12,7 @@ RUN set -ex; \
   tar xjvf curl-$CURL_VERSION.tar.bz2; \
   rm curl-$CURL_VERSION.tar.bz2; \
   cd curl-$CURL_VERSION; \
+  sed -i 's|#define USE_NTLM|/* #define USE_NTLM */|' lib/curl_setup.h; \
   ./configure \
       --with-nghttp2=/usr \
       --prefix=/usr \
