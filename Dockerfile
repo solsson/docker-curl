@@ -6,7 +6,7 @@ FROM alpine:3.6@sha256:1072e499f3f655a032e88542330cf75b02e7bdf673278f701d7ba6162
 ENV CURL_VERSION=7.54.1
 
 RUN set -ex; \
-  apk add --update --no-cache openssl nghttp2 ca-certificates; \
+  apk add --update --no-cache openssl nghttp2 ca-certificates bash; \
   apk add --update --no-cache --virtual curldeps g++ make perl openssl-dev nghttp2-dev wget; \
   wget https://curl.haxx.se/download/curl-$CURL_VERSION.tar.bz2; \
   tar xjvf curl-$CURL_VERSION.tar.bz2; \
