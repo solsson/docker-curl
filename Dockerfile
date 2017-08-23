@@ -37,8 +37,8 @@ RUN set -ex; \
   make install; \
   cd /; \
   rm -r curl-$CURL_VERSION; \
-  rm -r /var/cache/apk; \
   rm -r /usr/share/man; \
-  apk del curldeps
+  apk del curldeps; \
+  rm -r /var/cache/apk && mkdir /var/cache/apk
 
 ENTRYPOINT ["/usr/bin/curl"]
