@@ -1,9 +1,6 @@
-FROM alpine:3.6@sha256:1072e499f3f655a032e88542330cf75b02e7bdf673278f701d7ba61629ee3ebe
+FROM alpine:3.7@sha256:ccba511b1d6b5f1d83825a94f9d5b05528db456d9cf14a1ea1db892c939cda64
 
-# https://git.alpinelinux.org/cgit/aports/tree/main/curl/APKBUILD
-# sha512sums="eb9639677f0ca1521ca631c520ab83ad071c52b31690e5e7f31546f6a44b2f11d1bb62282056cffb570eb290bf1e7830e87cb536295ac6a54a904663e795f2da  curl-7.54.1.tar.bz2"
-
-ENV CURL_VERSION=7.55.1 CURL_SHA256=e5b1a92ed3b0c11f149886458fa063419500819f1610c020d62f25b8e4b16cfb
+ENV CURL_VERSION=7.57.0 CURL_SHA256=c92fe31a348eae079121b73884065e600c533493eb50f1f6cee9c48a3f454826
 
 RUN set -ex; \
   apk add --update --no-cache openssl nghttp2 ca-certificates bash; \
