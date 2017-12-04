@@ -40,3 +40,5 @@ RUN set -ex; \
   rm -r /var/cache/apk && mkdir /var/cache/apk
 
 ENTRYPOINT ["/usr/bin/curl"]
+
+RUN apk add --update --no-cache jq
