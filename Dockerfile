@@ -1,6 +1,6 @@
 FROM alpine:3.8@sha256:621c2f39f8133acb8e64023a94dbdf0d5ca81896102b9e57c0dc184cadaf5528
 
-ENV CURL_VERSION=7.61.1 CURL_SHA256=eaa812e9a871ea10dbe8e1d3f8f12a64a8e3e62aeab18cb23742e2f1727458ae
+ENV CURL_VERSION=7.61.1 CURL_SHA256=a308377dbc9a16b2e994abd55455e5f9edca4e31666f8f8fcfe7a1a4aea419b9
 
 RUN set -ex; \
   apk add --update --no-cache openssl nghttp2 ca-certificates bash; \
