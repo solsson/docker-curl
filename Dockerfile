@@ -1,25 +1,41 @@
-FROM alpine:3.8@sha256:621c2f39f8133acb8e64023a94dbdf0d5ca81896102b9e57c0dc184cadaf5528
+FROM buildpack-deps:stretch-curl
+# TODO buster
 
-ENV CURL_VERSION=7.61.1 CURL_SHA256=a308377dbc9a16b2e994abd55455e5f9edca4e31666f8f8fcfe7a1a4aea419b9
+ENV CURL_VERSION=7.62.0 CURL_SHA256=7802c54076500be500b171fde786258579d60547a3a35b8c5a23d8c88e8f9620
 
 RUN set -ex; \
-  apk add --update --no-cache openssl nghttp2 ca-certificates bash; \
-  apk add --update --no-cache --virtual curldeps g++ make perl openssl-dev nghttp2-dev wget; \
   wget https://curl.haxx.se/download/curl-$CURL_VERSION.tar.bz2; \
-  echo "$CURL_SHA256  curl-$CURL_VERSION.tar.bz2" | sha256sum -c; \
+  echo "$CURL_SHA256  curl-$CURL_VERSION.tar.bz2" | sha256sum -c
+
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends \
+    bzip2 \
+    binutils \
+    libidn2-0-dev \
+    g++ \
+    make \
+    perl \
+    file \
+    libssl-dev \
+    libpsl-dev \
+    libnghttp2-dev
+
+RUN set -ex; \
   tar xjvf curl-$CURL_VERSION.tar.bz2; \
-  rm curl-$CURL_VERSION.tar.bz2; \
+  rm curl-$CURL_VERSION.tar.bz2;
+
+RUN set -ex; \
   cd curl-$CURL_VERSION; \
   sed -i 's|#define USE_NTLM|/* #define USE_NTLM */|' lib/curl_setup.h; \
   ./configure \
-      --with-nghttp2=/usr \
+      --disable-shared \
+      --with-nghttp2 \
       --prefix=/usr \
       --with-ssl \
       --enable-ipv6 \
       --enable-unix-sockets \
       --without-libidn \
-      --without-libidn2 \
-      --disable-static \
+      --with-libidn2 \
       --disable-ldap \
       --disable-ftp \
       --disable-rtsp \
@@ -32,13 +48,10 @@ RUN set -ex; \
       --disable-ntlm-wb \
       --with-pic; \
   make; \
-  make install; \
-  cd /; \
-  rm -r curl-$CURL_VERSION; \
-  rm -r /usr/share/man; \
-  apk del curldeps; \
-  rm -r /var/cache/apk && mkdir /var/cache/apk
+  make install
+
+FROM scratch
+
+COPY --from=0 /usr/bin/curl /usr/bin/curl
 
 ENTRYPOINT ["/usr/bin/curl"]
-
-RUN apk add --update --no-cache jq
