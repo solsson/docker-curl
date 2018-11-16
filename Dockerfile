@@ -27,8 +27,9 @@ RUN set -ex; \
 RUN set -ex; \
   cd curl-$CURL_VERSION; \
   sed -i 's|#define USE_NTLM|/* #define USE_NTLM */|' lib/curl_setup.h; \
-  ./configure \
+  CPPFLAGS="-DNGHTTP2_STATICLIB" LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure \
       --disable-shared \
+      --enable-static \
       --with-nghttp2 \
       --prefix=/usr \
       --with-ssl \
@@ -47,8 +48,8 @@ RUN set -ex; \
       --disable-manual \
       --disable-ntlm-wb \
       --with-pic; \
-  make LDFLAGS=-all-static; \
-  make install
+  make curl_LDFLAGS=-all-static; \
+  make curl_LDFLAGS=-all-static install
 
 FROM scratch
 
