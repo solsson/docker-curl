@@ -47,7 +47,7 @@ RUN set -ex; \
       --disable-manual \
       --disable-ntlm-wb \
       --with-pic; \
-  make; \
+  make LDFLAGS=-all-static; \
   make install
 
 FROM scratch
