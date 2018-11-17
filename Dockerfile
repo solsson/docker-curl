@@ -1,5 +1,4 @@
-FROM buildpack-deps:stretch-curl
-# TODO buster
+FROM buildpack-deps:stretch
 
 ENV CURL_VERSION=7.62.0 CURL_SHA256=7802c54076500be500b171fde786258579d60547a3a35b8c5a23d8c88e8f9620
 
@@ -9,6 +8,7 @@ RUN set -ex; \
 
 RUN apt-get update && \
   apt-get install -y --no-install-recommends \
+    ca-certificates \
     bzip2 \
     binutils \
     libidn2-0-dev \
@@ -16,7 +16,7 @@ RUN apt-get update && \
     make \
     perl \
     file \
-    libssl-dev \
+    libssl1.0-dev \
     libpsl-dev \
     libnghttp2-dev
 
@@ -30,13 +30,14 @@ RUN set -ex; \
   CPPFLAGS="-DNGHTTP2_STATICLIB" LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure \
       --disable-shared \
       --enable-static \
-      --with-nghttp2 \
       --prefix=/usr \
+      --with-nghttp2 \
       --with-ssl \
       --enable-ipv6 \
       --enable-unix-sockets \
       --without-libidn \
       --with-libidn2 \
+      --with-psl \
       --disable-ldap \
       --disable-ftp \
       --disable-rtsp \
