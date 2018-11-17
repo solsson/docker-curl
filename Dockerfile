@@ -52,8 +52,13 @@ RUN set -ex; \
   make curl_LDFLAGS=-all-static; \
   make curl_LDFLAGS=-all-static install
 
+RUN curl -I https://debian.org/
+
 FROM scratch
 
 COPY --from=0 /usr/bin/curl /usr/bin/curl
 
 ENTRYPOINT ["/usr/bin/curl"]
+
+# https://github.com/curl/curl/issues/796#issuecomment-218956518
+# getaddrinfo will fail
